@@ -1,8 +1,8 @@
-import { ActionFunction, ActionFunctionArgs, redirect } from "@remix-run/node";
+import { ActionFunctionArgs, MetaArgs, MetaDescriptor } from "@remix-run/node";
 import {
+  isRouteErrorResponse,
   json,
   Link,
-  useActionData,
   useLoaderData,
   useRouteError,
 } from "@remix-run/react";
@@ -26,7 +26,12 @@ export default function Notes() {
 
 export async function loader() {
   const notes = await getStoredNotes();
-
+  if (!notes || notes.length === 0) {
+    throw json(
+      { message: "Could not find note" },
+      { status: 404, statusText: "Not Found" }
+    );
+  }
   return notes;
 }
 
@@ -48,6 +53,20 @@ export async function action({ request }: ActionFunctionArgs) {
 
 export function ErrorBoundary() {
   const error = useRouteError();
+
+  if (isRouteErrorResponse(error)) {
+    return (
+      <>
+        <NewNote />
+        <main className="error">
+          <h1>Oops</h1>
+          <p>Status: {error.status}</p>
+          <p>{error.data.message}</p>
+        </main>
+      </>
+    );
+  }
+
   return (
     <main className="error">
       <h1>An error occurred!</h1>
@@ -61,4 +80,13 @@ export function ErrorBoundary() {
 
 export function links() {
   return [...newNoteLinks(), ...noteListLinks()];
+}
+
+export function meta({ data }: MetaArgs): MetaDescriptor[] {
+  return [
+    {
+      title: "All Notes",
+      description: "Manage your notes with ease",
+    },
+  ];
 }
