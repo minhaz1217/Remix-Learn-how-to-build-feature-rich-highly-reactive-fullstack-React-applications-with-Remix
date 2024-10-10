@@ -1,9 +1,11 @@
 import {
+  Link,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useRouteError,
 } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
 
@@ -41,6 +43,35 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <MainNavigation />
         </header>
         {children}
+        <ScrollRestoration />
+        <Scripts />
+      </body>
+    </html>
+  );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <Meta />
+        <Links />
+        <title>Error occurred</title>
+      </head>
+      <body>
+        <header>
+          <MainNavigation />
+        </header>
+        <main className="error">
+          <h1>An error occurred!</h1>
+          <p>{error.message}</p>
+          <p>
+            Back to <Link to="/">Safety</Link>
+          </p>
+        </main>
         <ScrollRestoration />
         <Scripts />
       </body>

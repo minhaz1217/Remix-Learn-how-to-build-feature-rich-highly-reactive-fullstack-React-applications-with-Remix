@@ -1,5 +1,11 @@
 import { ActionFunction, ActionFunctionArgs, redirect } from "@remix-run/node";
-import { json, useActionData, useLoaderData } from "@remix-run/react";
+import {
+  json,
+  Link,
+  useActionData,
+  useLoaderData,
+  useRouteError,
+} from "@remix-run/react";
 import NewNote, { links as newNoteLinks } from "~/components/NewNote/NewNote";
 import NoteList, {
   links as noteListLinks,
@@ -38,6 +44,19 @@ export async function action({ request }: ActionFunctionArgs) {
   await storeNotes(updatedNotes);
   // return redirect("/notes"); // if needed
   return null;
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  return (
+    <main className="error">
+      <h1>An error occurred!</h1>
+      <p>{error.message}</p>
+      <p>
+        Back to <Link to="/">Safety</Link>
+      </p>
+    </main>
+  );
 }
 
 export function links() {
