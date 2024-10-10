@@ -1,14 +1,14 @@
-import { NavLink } from "@remix-run/react";
+import { Link, NavLink } from "@remix-run/react";
 
 function MainNavigation() {
   return (
     <nav id="main-navigation">
       <ul>
         <li className="nav-item">
-          <NavLink to="/">Home</NavLink>
+          <Link to="/">Home</Link>
         </li>
         <li className="nav-item">
-          <NavLink to="/notes">My Notes</NavLink>
+          <Link to="/notes">My Notes</Link>
         </li>
       </ul>
     </nav>
