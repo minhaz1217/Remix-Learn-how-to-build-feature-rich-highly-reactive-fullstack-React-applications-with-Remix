@@ -1,5 +1,5 @@
 import { ActionFunction, ActionFunctionArgs, redirect } from "@remix-run/node";
-import { json, useLoaderData } from "@remix-run/react";
+import { json, useActionData, useLoaderData } from "@remix-run/react";
 import NewNote, { links as newNoteLinks } from "~/components/NewNote/NewNote";
 import NoteList, {
   links as noteListLinks,
@@ -9,6 +9,7 @@ import Note from "~/models/Note";
 
 export default function Notes() {
   const notes = useLoaderData<typeof loader>();
+  // const actionData = useActionData<typeof action>();
   return (
     <main>
       <NewNote />
@@ -27,6 +28,10 @@ export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
   const noteData = Object.fromEntries(formData);
   noteData.id = new Date().toISOString();
+
+  if (noteData.title.trim().length < 5) {
+    return { message: "Title should be at least 5 characters" };
+  }
 
   const existingData = await getStoredNotes();
   const updatedNotes = existingData.concat(noteData as any);
