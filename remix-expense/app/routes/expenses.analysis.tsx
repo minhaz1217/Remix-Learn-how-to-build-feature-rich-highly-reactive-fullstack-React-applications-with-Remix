@@ -1,7 +1,7 @@
 import Chart from "~/components/expenses/Chart";
 import ExpenseStatistics from "~/components/expenses/ExpenseStatistics";
 
-export const DUMMY_EXPENSE = [
+const DUMMY_EXPENSE = [
   {
     id: "e1",
     title: "First Expense",
