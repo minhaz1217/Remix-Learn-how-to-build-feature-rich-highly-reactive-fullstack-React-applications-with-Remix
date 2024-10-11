@@ -1,6 +1,7 @@
-import { Outlet } from "@remix-run/react";
+import { Link, Outlet } from "@remix-run/react";
 import expenseStyle from "~/styles/expenses.css?url";
 import ExpensesList from "~/components/expenses/ExpensesList";
+import { FaDownload, FaPlus } from "react-icons/fa";
 const DUMMY_EXPENSE = [
   {
     id: "e1",
@@ -20,6 +21,16 @@ const ExpensePage = () => {
     <div>
       <Outlet />
       <main>
+        <section id="expenses-actions">
+          <Link to="add">
+            <FaPlus />
+            <span>Add Expense</span>
+          </Link>
+          <a href="/expenses/raw">
+            <FaDownload />
+            Load Raw Data
+          </a>
+        </section>
         <ExpensesList expenses={DUMMY_EXPENSE} />
       </main>
     </div>
