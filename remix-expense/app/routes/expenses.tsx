@@ -27,12 +27,3 @@ const ExpensePage = () => {
 };
 
 export default ExpensePage;
-
-export const links = () => {
-  return [
-    {
-      rel: "stylesheet",
-      href: expenseStyle,
-    },
-  ];
-};
