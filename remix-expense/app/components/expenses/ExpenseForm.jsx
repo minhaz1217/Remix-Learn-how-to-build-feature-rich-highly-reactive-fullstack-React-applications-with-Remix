@@ -3,13 +3,26 @@ import {
   useActionData,
   useNavigation,
   useLoaderData,
+  useMatches,
+  useParams,
 } from "@remix-run/react";
 import { Form } from "@remix-run/react";
 function ExpenseForm() {
   const validationErrors = useActionData();
   const navigation = useNavigation();
+  const matches = useMatches();
+  const params = useParams();
 
-  const expenseData = useLoaderData();
+  console.debug("Matches", matches);
+
+  const expenses = matches.find((x) => x.id === "routes/_app.expenses").data;
+  console.debug("Data", expenses, params.id);
+  const expenseData = expenses.find(
+    (expense) => expense.id.toString() === params.id.toString()
+  );
+  console.debug("Ex", expenseData);
+
+  // const expenseData = useLoaderData();
   const today = new Date().toISOString().slice(0, 10); // yields something like 2023-09-10
   const isSubmitting = navigation.state !== "idle";
 
