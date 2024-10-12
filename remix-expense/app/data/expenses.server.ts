@@ -41,3 +41,32 @@ export async function getExpense(id: string) {
     throw error;
   }
 }
+
+export async function updateExpense(id: string, expenseData: Expense) {
+  try {
+    const expenses = prisma.expense.update({
+      where: { id: Number(id) },
+      data: {
+        title: expenseData.title || "",
+        amount: Number(+(expenseData.amount || 0)),
+        date: new Date(expenseData.date ?? new Date()).toISOString(),
+      },
+    });
+    return expenses;
+  } catch (error: any) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export async function deleteExpense(id: string) {
+  try {
+    const expenses = prisma.expense.delete({
+      where: { id: Number(id) },
+    });
+    return expenses;
+  } catch (error: any) {
+    console.error(error);
+    throw error;
+  }
+}
