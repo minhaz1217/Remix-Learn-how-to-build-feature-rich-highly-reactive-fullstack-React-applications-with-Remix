@@ -13,13 +13,14 @@ function ExpenseForm() {
   const matches = useMatches();
   const params = useParams();
 
-
   const expenses = matches.find((x) => x.id === "routes/_app.expenses").data;
-  console.debug("Data", expenses, params.id);
+
   const expenseData = expenses?.find(
     (expense) => expense.id.toString() === params?.id?.toString()
   );
-  console.debug("Ex", expenseData);
+  if (params.id && !expenseData) {
+    return <p>Invalid expense id</p>;
+  }
 
   // const expenseData = useLoaderData();
   const today = new Date().toISOString().slice(0, 10); // yields something like 2023-09-10

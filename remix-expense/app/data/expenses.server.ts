@@ -12,7 +12,7 @@ export async function addExpense(expenseData: Partial<Expense>) {
     });
   } catch (error: any) {
     console.error(error);
-    throw error;
+    throw new Error("Failed to add expense");
   }
 }
 
@@ -26,7 +26,7 @@ export async function getExpenses() {
     return expenses;
   } catch (error: any) {
     console.error(error);
-    throw error;
+    throw new Error("Failed to get expense");
   }
 }
 
@@ -38,7 +38,7 @@ export async function getExpense(id: string) {
     return expenses;
   } catch (error: any) {
     console.error(error);
-    throw error;
+    throw new Error("Failed to get expense");
   }
 }
 
@@ -55,7 +55,7 @@ export async function updateExpense(id: string, expenseData: Expense) {
     return expenses;
   } catch (error: any) {
     console.error(error);
-    throw error;
+    throw new Error("Failed to update expense");
   }
 }
 
@@ -67,6 +67,6 @@ export async function deleteExpense(id: string) {
     return expenses;
   } catch (error: any) {
     console.error(error);
-    throw error;
+    throw new Error("Failed to delete expense");
   }
 }
