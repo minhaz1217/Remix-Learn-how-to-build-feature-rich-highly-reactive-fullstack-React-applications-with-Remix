@@ -16,7 +16,7 @@ function ExpenseListItem({ id, title, amount }) {
     }
     fetcher.submit(null, {
       method: "DELETE",
-      action: `/expense/${id}`,
+      action: `/expenses/${id}`,
     });
 
     console.debug("fetcher.data", fetcher.data);
