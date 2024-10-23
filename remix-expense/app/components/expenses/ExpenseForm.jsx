@@ -1,6 +1,8 @@
-import { Link } from "@remix-run/react";
+import { Link, useActionData } from "@remix-run/react";
 
 function ExpenseForm() {
+  const validationErrors = useActionData();
+
   const today = new Date().toISOString().slice(0, 10); // yields something like 2023-09-10
 
   return (
@@ -27,6 +29,13 @@ function ExpenseForm() {
           <input type="date" id="date" name="date" max={today} required />
         </p>
       </div>
+      {validationErrors && (
+        <ul>
+          {Object.values(validationErrors).map((error) => {
+            return <li key={error}>{error}</li>;
+          })}
+        </ul>
+      )}
       <div className="form-actions">
         <button>Save Expense</button>
         <Link to="..">Cancel</Link>
