@@ -15,3 +15,17 @@ export async function addExpense(expenseData: Partial<Expense>) {
     throw error;
   }
 }
+
+export async function getExpenses() {
+  try {
+    const expenses = prisma.expense.findMany({
+      orderBy: {
+        date: "desc",
+      },
+    });
+    return expenses;
+  } catch (error: any) {
+    console.error(error);
+    throw error;
+  }
+}
