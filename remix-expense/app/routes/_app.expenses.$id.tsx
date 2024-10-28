@@ -20,8 +20,8 @@ const ExpensesUpdatePage = () => {
 
 export default ExpensesUpdatePage;
 
-export async function loader({ params }: LoaderFunctionArgs) {
-  const expenseId = params.id;
-  const expense = await getExpense(expenseId as string);
-  return expense;
-}
+// export async function loader({ params }: LoaderFunctionArgs) {
+//   const expenseId = params.id;
+//   const expense = await getExpense(expenseId as string);
+//   return expense;
+// }
