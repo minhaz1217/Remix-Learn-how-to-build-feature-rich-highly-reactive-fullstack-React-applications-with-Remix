@@ -1,4 +1,8 @@
-import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
+import {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
 import { redirect, useLoaderData, useNavigate } from "@remix-run/react";
 import ExpenseForm from "~/components/expenses/ExpenseForm";
 import Modal from "~/components/util/Modal";
@@ -54,3 +58,18 @@ export async function action({ request, params }: ActionFunctionArgs) {
     return redirect("/expenses");
   }
 }
+
+export const meta: MetaFunction = ({
+  params,
+  location,
+  data,
+  parentsData,
+}: any) => {
+  console.log("parent", parentsData);
+  // const expense = parentsData("")
+  return [
+    {
+      title: "RemixExpense",
+    },
+  ];
+};

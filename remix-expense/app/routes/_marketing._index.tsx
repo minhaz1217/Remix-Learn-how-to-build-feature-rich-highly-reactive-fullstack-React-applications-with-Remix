@@ -1,3 +1,4 @@
+import { HeadersFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import { FaArrowRight, FaDollarSign, FaChartBar } from "react-icons/fa";
 
@@ -47,3 +48,9 @@ export default function Index() {
 }
 
 export function meta() {}
+
+export const headers: HeadersFunction = () => {
+  return {
+    "Cache-Control": 3600,
+  };
+};

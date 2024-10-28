@@ -6,9 +6,10 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useMatches,
   useRouteError,
 } from "@remix-run/react";
-import type { LinksFunction } from "@remix-run/node";
+import type { LinksFunction, MetaFunction } from "@remix-run/node";
 
 import tailwindCss from "./tailwind.css?url";
 import sharedCss from "~/styles/shared.css?url";
@@ -39,7 +40,17 @@ export const links: LinksFunction = () => [
   },
 ];
 
+export const meta: MetaFunction = () => {
+  return [
+    {
+      title: "RemixExpense",
+    },
+  ];
+};
+
 function Document({ title, children }: any) {
+  const matches = useMatches();
+  const disableJs = matches.some((match) => match.handle?.disableJs);
   return (
     <html lang="en">
       <head>
@@ -51,7 +62,7 @@ function Document({ title, children }: any) {
       <body>
         {children}
         <ScrollRestoration />
-        <Scripts />
+        {!disableJs && <Scripts />}
       </body>
     </html>
   );

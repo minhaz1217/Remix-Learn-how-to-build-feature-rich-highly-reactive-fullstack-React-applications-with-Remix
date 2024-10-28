@@ -40,3 +40,7 @@ export default function PricingPage() {
 }
 
 export function meta() {}
+
+export const handle = {
+  disableJs: true,
+};
