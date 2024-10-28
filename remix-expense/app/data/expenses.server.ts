@@ -29,3 +29,15 @@ export async function getExpenses() {
     throw error;
   }
 }
+
+export async function getExpense(id: string) {
+  try {
+    const expenses = prisma.expense.findFirst({
+      where: { id: Number(id) },
+    });
+    return expenses;
+  } catch (error: any) {
+    console.error(error);
+    throw error;
+  }
+}
