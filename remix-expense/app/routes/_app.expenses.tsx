@@ -3,6 +3,8 @@ import expenseStyle from "~/styles/expenses.css?url";
 import ExpensesList from "~/components/expenses/ExpensesList";
 import { FaDownload, FaPlus } from "react-icons/fa";
 import { getExpenses } from "~/data/expenses.server";
+import { LoaderFunctionArgs } from "@remix-run/node";
+import { requireUserSession } from "~/data/auth.server";
 
 const ExpensePage = () => {
   const expenses = useLoaderData<[]>();
@@ -37,7 +39,8 @@ const ExpensePage = () => {
 };
 
 export default ExpensePage;
-export async function loader() {
+export async function loader({ request }: LoaderFunctionArgs) {
+  await requireUserSession(request);
   const expenses = await getExpenses();
   // if (!expenses || expenses.length === 0) {
   //   throw json(
