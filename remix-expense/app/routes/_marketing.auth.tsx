@@ -1,8 +1,12 @@
 import authStyle from "~/styles/auth.css?url";
 import AuthForm from "~/components/auth/AuthForm";
-import { ActionFunctionArgs, redirect } from "@remix-run/node";
+import {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  redirect,
+} from "@remix-run/node";
 import { validateCredentials } from "~/data/validation.server";
-import { login, signup } from "~/data/auth.server";
+import { getUserFromSession, login, signup } from "~/data/auth.server";
 const AuthPage = () => {
   return <AuthForm />;
 };
