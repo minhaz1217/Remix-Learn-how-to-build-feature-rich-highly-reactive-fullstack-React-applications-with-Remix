@@ -40,8 +40,8 @@ const ExpensePage = () => {
 
 export default ExpensePage;
 export async function loader({ request }: LoaderFunctionArgs) {
-  await requireUserSession(request);
-  const expenses = await getExpenses();
+  const userId = await requireUserSession(request);
+  const expenses = await getExpenses(Number(userId));
   // if (!expenses || expenses.length === 0) {
   //   throw json(
   //     { message: "No expense found" },

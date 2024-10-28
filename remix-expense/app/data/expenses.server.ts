@@ -1,13 +1,19 @@
 import { Expense } from "@prisma/client";
 import { prisma } from "./database.server";
 
-export async function addExpense(expenseData: Partial<Expense>) {
+export async function addExpense(
+  expenseData: Partial<Expense>,
+  userId: number
+) {
   try {
     return prisma.expense.create({
       data: {
         title: expenseData.title || "",
         amount: Number(+(expenseData.amount || 0)),
         date: new Date(expenseData.date ?? new Date()).toISOString(),
+        User: {
+          connect: { id: userId },
+        },
       },
     });
   } catch (error: any) {
@@ -16,9 +22,10 @@ export async function addExpense(expenseData: Partial<Expense>) {
   }
 }
 
-export async function getExpenses() {
+export async function getExpenses(userId: number) {
   try {
     const expenses = prisma.expense.findMany({
+      where: { userId: userId },
       orderBy: {
         date: "desc",
       },
@@ -30,10 +37,10 @@ export async function getExpenses() {
   }
 }
 
-export async function getExpense(id: string) {
+export async function getExpense(id: string, userId: number) {
   try {
     const expenses = prisma.expense.findFirst({
-      where: { id: Number(id) },
+      where: { id: Number(id), userId: userId },
     });
     return expenses;
   } catch (error: any) {
