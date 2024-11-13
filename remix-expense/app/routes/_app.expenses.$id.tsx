@@ -47,6 +47,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   } else if (request.method === "DELETE") {
     try {
       await deleteExpense(expenseId?.toString() ?? "");
+      return { expenseId: expenseId };
     } catch (error: any) {
       return error;
     }
