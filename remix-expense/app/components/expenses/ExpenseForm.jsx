@@ -13,12 +13,11 @@ function ExpenseForm() {
   const matches = useMatches();
   const params = useParams();
 
-  console.debug("Matches", matches);
 
   const expenses = matches.find((x) => x.id === "routes/_app.expenses").data;
   console.debug("Data", expenses, params.id);
-  const expenseData = expenses.find(
-    (expense) => expense.id.toString() === params.id.toString()
+  const expenseData = expenses?.find(
+    (expense) => expense.id.toString() === params?.id?.toString()
   );
   console.debug("Ex", expenseData);
 
