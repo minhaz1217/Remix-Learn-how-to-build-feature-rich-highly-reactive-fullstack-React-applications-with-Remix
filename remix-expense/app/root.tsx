@@ -1,15 +1,19 @@
 import {
+  isRouteErrorResponse,
+  Link,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useRouteError,
 } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
 
 import tailwindCss from "./tailwind.css?url";
 import sharedCss from "~/styles/shared.css?url";
 import MainHeader from "~/components/navigation/MainHeader";
+import Error from "~/components/util/Error";
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
@@ -35,7 +39,7 @@ export const links: LinksFunction = () => [
   },
 ];
 
-export function Layout({ children }: { children: React.ReactNode }) {
+function Document({ title, children }: any) {
   return (
     <html lang="en">
       <head>
@@ -53,10 +57,37 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
+// export function Layout({ children }: { children: React.ReactNode }) {
+//   return <App></App>;
+// }
+
 export default function App() {
   return (
     <>
-      <Outlet />
+      <Document>
+        <Outlet />
+      </Document>
     </>
+  );
+}
+
+export function ErrorBoundary() {
+  const caughtResponse: any = useRouteError();
+  console.debug("Caught error", caughtResponse);
+
+  return (
+    <Document>
+      <main>
+        <Error title={caughtResponse.statusText}>
+          <p>
+            {caughtResponse?.data?.message ||
+              "Something went wrong, please try again later"}
+          </p>
+          <p>
+            Back to <Link to="/">safety</Link>
+          </p>
+        </Error>
+      </main>
+    </Document>
   );
 }

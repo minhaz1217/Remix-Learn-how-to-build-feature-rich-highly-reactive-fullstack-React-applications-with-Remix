@@ -29,7 +29,7 @@ export async function loader() {
   if (!notes || notes.length === 0) {
     throw json(
       { message: "Could not find note" },
-      { status: 404, statusText: "Not Found" }
+      { status: 404, statusText: "Not Found 3" }
     );
   }
   return notes;
