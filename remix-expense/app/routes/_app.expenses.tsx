@@ -1,11 +1,12 @@
-import { Link, Outlet, useLoaderData } from "@remix-run/react";
+import { json, Link, Links, Outlet, useLoaderData } from "@remix-run/react";
 import expenseStyle from "~/styles/expenses.css?url";
 import ExpensesList from "~/components/expenses/ExpensesList";
 import { FaDownload, FaPlus } from "react-icons/fa";
 import { getExpenses } from "~/data/expenses.server";
 
 const ExpensePage = () => {
-  const expenses = useLoaderData();
+  const expenses = useLoaderData<[]>();
+  const hasExpenses = expenses && expenses.length > 0;
   return (
     <div>
       <Outlet />
@@ -20,7 +21,16 @@ const ExpensePage = () => {
             Load Raw Data
           </a>
         </section>
-        <ExpensesList expenses={expenses} />
+        {hasExpenses ? (
+          <ExpensesList expenses={expenses} />
+        ) : (
+          <section id="no-expenses">
+            <h1>No expenses found</h1>
+            <p>
+              Start <Link to="add">adding some</Link> today
+            </p>
+          </section>
+        )}
       </main>
     </div>
   );
@@ -29,5 +39,17 @@ const ExpensePage = () => {
 export default ExpensePage;
 export async function loader() {
   const expenses = await getExpenses();
+  // if (!expenses || expenses.length === 0) {
+  //   throw json(
+  //     { message: "No expense found" },
+  //     {
+  //       status: 404,
+  //     }
+  //   );
+  // }
   return expenses;
 }
+
+// export function ErrorBoundary() {
+//   return <p>Error</p>;
+// }
