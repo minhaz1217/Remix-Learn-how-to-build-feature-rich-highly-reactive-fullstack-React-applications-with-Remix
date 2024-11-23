@@ -1,7 +1,8 @@
 import authStyle from "~/styles/auth.css?url";
 import AuthForm from "~/components/auth/AuthForm";
-import { ActionFunctionArgs } from "@remix-run/node";
+import { ActionFunctionArgs, redirect } from "@remix-run/node";
 import { validateCredentials } from "~/data/validation.server";
+import { signup } from "~/data/auth.server";
 const AuthPage = () => {
   return <AuthForm />;
 };
@@ -30,9 +31,19 @@ export async function action({ request }: ActionFunctionArgs) {
     return error;
   }
 
-  if (authMode === "login") {
-    // login
-  } else {
-    // sign up
+  try {
+    if (authMode === "login") {
+      // login
+    } else {
+      // sign up
+      await signup(credentials);
+      return redirect("/expenses");
+    }
+  } catch (error: any) {
+    if (error.status === 422) {
+      return {
+        credentials: error.message,
+      };
+    }
   }
 }
