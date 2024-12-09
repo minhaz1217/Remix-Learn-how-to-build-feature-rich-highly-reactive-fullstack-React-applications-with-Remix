@@ -29,7 +29,7 @@ function MainHeader() {
               </Link>
             ) : (
               <Form method="post" action="/logout" id="logout-form">
-                <button className="cta-alt">Logout</button>
+                <button className="cta">Logout</button>
               </Form>
             )}
           </li>
